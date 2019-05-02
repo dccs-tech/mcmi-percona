@@ -1,0 +1,211 @@
+parents:
+  - aws-network
+
+config:
+  db_subnet_cidr_prefix: 28
+  db_subnet_public_ip: true
+
+  db_groups: cenv-db
+
+  aws_db_subnets:
+    - admin-db-1
+    - admin-db-2
+    - admin-db-3
+
+  aws_db_load_balancer_health_check_interval: 30
+  aws_db_load_balancer_healthy_threshold: 3
+  aws_db_load_balancer_unhealthy_threshold: 3
+
+  aws_db_machine: t2.small
+  aws_db_tenancy: default
+  aws_db_monitoring: false
+  aws_db_ebs_type: gp2
+  aws_db_ebs_size: 20
+  aws_db_ebs_iops: null
+  aws_db_ebs_optimized: false
+  aws_db_ebs_encrypted: false
+
+  db_port: 3306
+  db_sst_port: 4444
+  db_wr_port: 4567
+  db_ist_port: 4568
+
+group:
+  cenv-db:
+
+subnet:
+  admin-db-1:
+    when_in: "@aws_db_subnets"
+    network: "@aws_networks"
+    cidr_prefix: "@db_subnet_cidr_prefix"
+    zone_suffix: a
+    use_public_ip: "@db_subnet_public_ip"
+    groups: "@db_groups"
+
+  admin-db-2:
+    when_in: "@aws_db_subnets"
+    network: "@aws_networks"
+    cidr_prefix: "@db_subnet_cidr_prefix"
+    zone_suffix: b
+    use_public_ip: "@db_subnet_public_ip"
+    groups: "@db_groups"
+
+  admin-db-3:
+    when_in: "@aws_db_subnets"
+    network: "@aws_networks"
+    cidr_prefix: "@db_subnet_cidr_prefix"
+    zone_suffix: c
+    use_public_ip: "@db_subnet_public_ip"
+    groups: "@db_groups"
+
+firewall:
+  cenv-db:
+    network: "@aws_networks"
+    groups: "@db_groups"
+    rules:
+      db-in:
+        mode: ingress
+        protocol: tcp
+        from_port: "@db_port"
+        to_port: "@db_port"
+        cidrs: "@network_cidr_base"
+      sst-in:
+        mode: ingress
+        protocol: tcp
+        from_port: "@db_sst_port"
+        to_port: "@db_sst_port"
+        cidrs: "&subnet:@aws_db_subnets:cidr"
+      wr-tcp-in:
+        mode: ingress
+        protocol: tcp
+        from_port: "@db_wr_port"
+        to_port: "@db_wr_port"
+        cidrs: "&subnet:@aws_db_subnets:cidr"
+      wr-udp-in:
+        mode: ingress
+        protocol: udp
+        from_port: "@db_wr_port"
+        to_port: "@db_wr_port"
+        cidrs: "&subnet:@aws_db_subnets:cidr"
+      ist-in:
+        mode: ingress
+        protocol: tcp
+        from_port: "@db_ist_port"
+        to_port: "@db_ist_port"
+        cidrs: "&subnet:@aws_db_subnets:cidr"
+
+load_balancer:
+  cenv-db:
+    provider: aws_network
+    network: "@aws_networks"
+    subnets: "@aws_db_subnets"
+    groups: "@db_groups"
+    internal: true
+    listeners:
+      tcp:
+        port: "@db_port"
+        target_port: "@db_port"
+        target_protocol: tcp
+        health_check_interval: "@aws_db_load_balancer_health_check_interval"
+        healthy_threshold: "@aws_db_load_balancer_healthy_threshold"
+        unhealthy_threshold: "@aws_db_load_balancer_unhealthy_threshold"
+
+server:
+  cenv-db:
+    count: 1
+    provider: ec2_lb
+    network: "@aws_networks"
+    subnet: "@aws_db_subnets"
+    image: "@aws_ubuntu_image[<network>]"
+    ssh_port: "@ssh_port"
+    user: "@aws_ubuntu_user"
+    machine: "@aws_db_machine"
+    tenancy: "@aws_db_tenancy"
+    monitoring: "@aws_db_monitoring"
+    ebs_type: "@aws_db_ebs_type"
+    ebs_size: "@aws_db_ebs_size"
+    ebs_iops: "@aws_db_ebs_iops"
+    ebs_iops: "@aws_db_ebs_iops"
+    ebs_optimized: "@aws_db_ebs_optimized"
+    ebs_encrypted: "@aws_db_ebs_encrypted"
+    firewalls:
+      - internet
+      - ssh-external
+      - cenv-db
+    load_balancer: cenv-db
+    load_balancer_listener: tcp
+    groups: "@db_groups"
+
+provision:
+  cenv-db-credentials:
+    command: server rotate
+    server_search: groups.name=cenv-db
+
+  percona-cluster:
+    requires: cenv-db-credentials
+    task: percona
+    servers: groups.name=cenv-db
+    percona_server_etc_my_cnf:
+      - section: mysqld
+        options:
+          - name: server_id
+            value: "{{ server_index }}"
+          - name: log_bin
+            value: mysql-bin
+          - name: log_bin_index
+            value: mysql-bin.index
+          - name: sync_binlog
+            value: 1
+          - name: relay_log
+            value: mysql-relay
+          - name: relay_log_index
+            value: mysql-relay.index
+          - name: sync_relay_log
+            value: 1
+          - name: report_host
+            value: "{{ inventory_hostname }}"
+          - name: skip_slave_start
+            value: 1
+          - name: wsrep_provider
+            value: /usr/lib/libgalera_smm.so
+          - name: wsrep_cluster_name
+            value: cenv-cluster
+          - name: wsrep_cluster_address
+            value: gcomm://&server:cenv-db*:private_ip
+          - name: wsrep_node_name
+            value: "cenv-{{ server_index }}"
+          - name: wsrep_node_address
+            value: "{{ ansible_host }}"
+          - name: wsrep_sst_method
+            value: xtrabackup-v2
+          - name: wsrep_sst_auth
+            value: replicator:replicator
+          - name: pxc_strict_mode
+            value: ENFORCING
+          - name: binlog_format
+            value: ROW
+          - name: default_storage_engine
+            value: InnoDB
+          - name: innodb_autoinc_lock_mode
+            value: 2
+    percona_server_root_password: admin
+    percona_server_users_present_hosts:
+      - localhost
+      - "%"
+    percona_server_databases_present:
+      - name: cenv
+        collation: utf8_general_ci
+        encoding: utf8
+    percona_server_users_present:
+      - name: replicator
+        password: replicator
+        privs:
+          - "*.*:RELOAD,LOCK TABLES,PROCESS,REPLICATION CLIENT"
+        hosts:
+          - "%"
+      - name: cenv
+        password: cenv
+        privs:
+          - "cenv.*:ALL"
+        hosts:
+          - "%"
