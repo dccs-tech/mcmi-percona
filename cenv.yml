@@ -1,0 +1,13 @@
+scripts: scripts/install.sh
+requirements: requirements.txt
+
+profiles: profiles
+tasks: tasks
+roles:
+  percona-admin: Percona administrator (full privileges over all Percona Cluster database system)
+
+modules:
+  cluster:
+    provider: git
+    remote: https://github.com/venturiscm/cenv-cluster.git
+    reference: master
