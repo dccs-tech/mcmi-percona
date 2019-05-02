@@ -1,0 +1,5 @@
+
+percona:
+  provider: ansible
+  roles: percona-admin
+  playbooks: percona.yml
