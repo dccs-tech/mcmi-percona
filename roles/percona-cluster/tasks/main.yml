@@ -1,0 +1,75 @@
+---
+- include: first-run.yml
+  tags:
+    - configuration
+    - percona-cluster
+    - percona-cluster-first-run
+
+- include: repository.yml
+  tags:
+    - configuration
+    - percona-cluster
+    - percona-cluster-repository
+
+- include: install.yml
+  tags:
+    - configuration
+    - percona-cluster
+    - percona-cluster-install
+
+# - include: configure.yml
+#   tags:
+#     - configuration
+#     - percona-cluster
+#     - percona-cluster-configure
+
+# - include: toolkit-udfs.yml
+#   tags:
+#     - configuration
+#     - percona-cluster
+#     - percona-cluster-toolkit-udfs
+
+# - include: zoneinfo.yml
+#   tags:
+#     - configuration
+#     - percona-cluster
+#     - percona-cluster-zoneinfo
+#   when: percona_cluster_zoneinfo_manage | bool
+
+# - include: databases.yml
+#   tags:
+#     - configuration
+#     - percona-cluster
+#     - percona-cluster-databases
+
+# - include: users.yml
+#   tags:
+#     - configuration
+#     - percona-cluster
+#     - percona-cluster-users
+
+# - include: plugins.yml
+#   tags:
+#     - configuration
+#     - percona-cluster
+#     - percona-cluster-plugins
+
+# - include: queries.yml
+#   tags:
+#     - configuration
+#     - percona-cluster
+#     - percona-cluster-queries
+
+# - include: ib-logfile.yml
+#   tags:
+#     - configuration
+#     - percona-cluster
+#     - percona-cluster-ib-logfile
+
+# - name: start and enable service
+#   service:
+#     name: mysql
+#     state: "{{ service_default_state | default('started') }}"
+#     enabled: "{{ service_default_enabled | default(true) | bool }}"
+#   tags:
+#     - percona-cluster-start-enable-service

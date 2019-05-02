@@ -1,0 +1,10 @@
+---
+- name: first-run | check
+  shell: >
+    dpkg-query -W -f='${Status}' percona-xtradb-cluster-server-{{ percona_server_version }} | grep -q 'install ok installed'
+  register: _mysqld_installed
+  check_mode: no
+  changed_when: false
+  failed_when: false
+  tags:
+    - percona-cluster-first-run-check
