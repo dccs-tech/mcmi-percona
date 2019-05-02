@@ -1,0 +1,16 @@
+- hosts: all
+  roles:
+    - { role: oefenweb.limits }
+    - { role: percona-cluster }
+  vars:
+    percona_server_version: 5.7
+    limits_conf_d_files:
+      000-percona-server.conf:
+        - domain: mysql
+          type: soft
+          item: nofile
+          value: 65535
+        - domain: mysql
+          type: hard
+          item: nofile
+          value: 65535
