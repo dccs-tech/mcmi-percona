@@ -2,8 +2,10 @@ parents:
   - module: cluster
     profile: aws-network
 
-  - aws-groups
   - aws-config
+
+group:
+  percona-db:
 
 subnet:
   percona-db-1:

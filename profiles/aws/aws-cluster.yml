@@ -1,0 +1,9 @@
+profile:
+  percona-init:
+    profile: aws-init
+    operations: provision
+    once: true
+
+  percona-maintain:
+    requires: percona-init
+    profile: aws-core

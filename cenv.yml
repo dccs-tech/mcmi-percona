@@ -4,7 +4,6 @@ requirements: requirements.txt
 tasks: tasks
 profiles:
   - profiles/aws
-  - profiles/aws/phase
 roles:
   percona-admin: Percona administrator (full privileges over all Percona Cluster database system)
 
