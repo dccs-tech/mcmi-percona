@@ -1,5 +1,15 @@
 
-percona:
+_ansible: &ansible
   provider: ansible
   roles: percona-admin
+  config: ansible.cfg
+  group_vars: variables
+
+
+percona-init:
+  <<: *ansible
+  playbooks: percona-init.yml
+
+percona:
+  <<: *ansible
   playbooks: percona.yml
