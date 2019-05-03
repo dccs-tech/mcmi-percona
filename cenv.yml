@@ -1,8 +1,10 @@
 scripts: scripts/install.sh
 requirements: requirements.txt
 
-profiles: profiles
 tasks: tasks
+profiles:
+  - profiles/aws
+  - profiles/aws/phase
 roles:
   percona-admin: Percona administrator (full privileges over all Percona Cluster database system)
 
