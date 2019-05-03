@@ -1,0 +1,16 @@
+parents:
+  - aws-core
+
+server:
+  percona-db:
+    count: 1
+    network: "@aws_networks[0]"
+    subnet: "@aws_percona_subnets[0]"
+
+provision:
+  percona-cluster:
+    task: percona-init
+    servers: "id=&server(network=@aws_networks[0];subnet=@aws_percona_subnets[0]):percona-db1:id"
+    config:
+      mysqld:
+        wsrep_cluster_address: gcomm://

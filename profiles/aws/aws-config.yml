@@ -1,0 +1,28 @@
+config:
+  percona_subnet_cidr_prefix: 28
+  percona_subnet_public_ip: true
+
+  percona_groups: percona-db
+
+  aws_percona_subnets:
+    - percona-db-1
+    - percona-db-2
+    - percona-db-3
+
+  aws_percona_load_balancer_health_check_interval: 30
+  aws_percona_load_balancer_healthy_threshold: 3
+  aws_percona_load_balancer_unhealthy_threshold: 3
+
+  aws_percona_machine: t2.small
+  aws_percona_tenancy: default
+  aws_percona_monitoring: false
+  aws_percona_ebs_type: gp2
+  aws_percona_ebs_size: 20
+  aws_percona_ebs_iops: null
+  aws_percona_ebs_optimized: false
+  aws_percona_ebs_encrypted: false
+
+  percona_port: 3306
+  percona_sst_port: 4444
+  percona_wr_port: 4567
+  percona_ist_port: 4568
