@@ -3,4 +3,4 @@
     - { role: oefenweb.limits }
     - { role: percona-cluster }
   vars:
-    initialize_cluster: false
+    initialize_cluster: true
