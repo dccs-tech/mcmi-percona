@@ -2,5 +2,5 @@
   roles:
     - { role: oefenweb.limits }
     - { role: percona-cluster }
-  vars:
-    initialize_cluster: false
+    - { role: percona-database }
+    - { role: percona-user }
