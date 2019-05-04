@@ -6,10 +6,14 @@ _ansible: &ansible
   group_vars: variables
 
 
-percona-init:
-  <<: *ansible
-  playbooks: percona-init.yml
-
 percona:
   <<: *ansible
   playbooks: percona.yml
+
+database:
+  <<: *ansible
+  playbooks: percona-db.yml
+
+user:
+  <<: *ansible
+  playbooks: percona-user.yml
