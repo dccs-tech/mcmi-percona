@@ -1,0 +1,27 @@
+---
+- name: users | create core users
+  mysql_user:
+    name: "{{ item }}"
+    password: "{{ default_users_present[item].password }}"
+    priv: "{{ default_users_present[item].privileges | join('/') }}"
+    host: "{{ default_users_present[item].host }}"
+    state: present
+  with_items:
+    - "{{ default_users_present.keys() | list }}"
+
+- name: users | create users
+  mysql_user:
+    name: "{{ item }}"
+    password: "{{ users_present[item].password }}"
+    priv: "{{ users_present[item].privileges | join('/') }}"
+    host: "{{ users_present[item].host }}"
+    state: present
+  with_items:
+    - "{{ users_present.keys() | list }}"
+
+- name: users | drop users
+  mysql_user:
+    name: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ (default_users_absent|combine(users_absent,recursive=True)).keys() | list }}"

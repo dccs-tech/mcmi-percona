@@ -1,0 +1,12 @@
+# {{ ansible_managed }}
+{% for section, config in root_user_config.items() %}
+[{{ section }}]
+{% for name, value in config.items() %}
+{% if value is not none %}
+{{ name }} = {{ value }}
+{% else %}
+{{ name }}
+{% endif %}
+{% endfor %}
+
+{% endfor %}
