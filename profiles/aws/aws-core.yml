@@ -119,37 +119,10 @@ provision:
     requires: percona-db-credentials
     task: percona
     servers: groups.name=percona-db
-    root_password: admin
-    config:
+    root_password: "@percona_root_password"
+    replicator_password: "@percona_replicator_password"
+    global_config:
       mysqld:
-        server_id: "{{ server_index }}"
-        log_bin: mysql-bin
-        log_bin_index: mysql-bin.index
-        sync_binlog: 1
-        relay_log: mysql-relay
-        relay_log_index: mysql-relay.index
-        sync_relay_log: 1
-        report_host: "{{ inventory_hostname }}"
-        skip_slave_start: 1
-        wsrep_provider: /usr/lib/libgalera_smm.so
-        wsrep_cluster_name: cenv-cluster
-        wsrep_cluster_address: gcomm://&server:cenv-db*:private_ip
-        wsrep_node_name: "cenv-{{ server_index }}"
-        wsrep_node_address: "{{ ansible_host }}"
-        wsrep_sst_method: xtrabackup-v2
-        wsrep_sst_auth: replicator:replicator
-        pxc_strict_mode: ENFORCING
-        binlog_format: ROW
-        default_storage_engine: InnoDB
-        innodb_autoinc_lock_mode: 2
-    user_hosts:
-      - localhost
-      - "%"
-    users:
-      replicator:
-        name: replicator
-        password: replicator
-        privs:
-          - "*.*:RELOAD,LOCK TABLES,PROCESS,REPLICATION CLIENT"
-        hosts:
-          - "%"
+        datadir: "@percona_data_dir"
+        wsrep_cluster_address: gcomm://&server:percona-db*:private_ip
+        wsrep_sst_auth: replicator:@percona_replicator_password

@@ -9,8 +9,7 @@ server:
 
 provision:
   percona-cluster:
-    task: percona-init
     servers: "id=&server(network=@aws_networks[0];subnet=@aws_percona_subnets[0]):percona-db1:id"
-    config:
+    global_config:
       mysqld:
         wsrep_cluster_address: gcomm://

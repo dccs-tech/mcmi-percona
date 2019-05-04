@@ -26,3 +26,7 @@ config:
   percona_sst_port: 4444
   percona_wr_port: 4567
   percona_ist_port: 4568
+
+  percona_root_password: aabbccddeeffgghh
+  percona_replicator_password: aabbccddeeffgghh
+  percona_data_dir: /var/lib/mysql
