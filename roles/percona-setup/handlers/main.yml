@@ -1,0 +1,6 @@
+---
+- name: restart percona-cluster
+  service:
+    name: mysql
+    state: restarted
+  when: _mysqld_installed.rc == 0 and service_default_state | default('started') == 'started'

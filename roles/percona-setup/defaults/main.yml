@@ -3,6 +3,9 @@ version: 5.7
 package_suffix: 57
 
 root_password: '+eswuw9uthUteFreyAqu'
+replicator_password: '+eswuw9uthUteFreyAqu'
+
+percona_type: node
 
 global_config: {}
 default_config:
@@ -39,7 +42,7 @@ default_config:
     wsrep_node_name: "percona-{{ server_index }}"
     pxc_strict_mode: ENFORCING
     wsrep_sst_method: xtrabackup-v2
-    wsrep_sst_auth: replicator:replicator
+    wsrep_sst_auth: "replicator:{{ replicator_password }}"
 
 root_user_config:
   client:

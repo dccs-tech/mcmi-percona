@@ -28,10 +28,15 @@
   notify: restart percona-cluster
 
 - block:
+  - name: configure | bootstrap cluster
+    command: /etc/init.d/mysql bootstrap-pxc
+    when: percona_type == "seed"
+
   - name: configure | restart service
     service:
       name: mysql
       state: started
+
   when: _mysqld_installed.rc != 0
 
 - name: configure | update root configuration file
