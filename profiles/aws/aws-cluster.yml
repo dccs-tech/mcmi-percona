@@ -1,9 +1,125 @@
-profile:
-  percona-init:
-    profile: aws-init
-    operations: provision
-    once: true
+parents:
+  - module: cluster
+    profile: aws-network
 
-  percona-maintain:
-    requires: percona-init
-    profile: aws-core
+  - aws-config
+
+group:
+  percona-db:
+
+subnet:
+  percona-db-1:
+    when_in: "@aws_percona_subnets"
+    network: "@aws_networks"
+    cidr_prefix: "@percona_subnet_cidr_prefix"
+    zone_suffix: a
+    use_public_ip: "@percona_subnet_public_ip"
+    groups: "@percona_groups"
+
+  percona-db-2:
+    when_in: "@aws_percona_subnets"
+    network: "@aws_networks"
+    cidr_prefix: "@percona_subnet_cidr_prefix"
+    zone_suffix: b
+    use_public_ip: "@percona_subnet_public_ip"
+    groups: "@percona_groups"
+
+  percona-db-3:
+    when_in: "@aws_percona_subnets"
+    network: "@aws_networks"
+    cidr_prefix: "@percona_subnet_cidr_prefix"
+    zone_suffix: c
+    use_public_ip: "@percona_subnet_public_ip"
+    groups: "@percona_groups"
+
+firewall:
+  percona-db:
+    network: "@aws_networks"
+    groups: "@percona_groups"
+    rules:
+      db-in:
+        mode: ingress
+        protocol: tcp
+        from_port: "@percona_port"
+        to_port: "@percona_port"
+        cidrs: "@network_cidr_base"
+      sst-in:
+        mode: ingress
+        protocol: tcp
+        from_port: "@percona_sst_port"
+        to_port: "@percona_sst_port"
+        cidrs: "&subnet:@aws_percona_subnets:cidr"
+      wr-tcp-in:
+        mode: ingress
+        protocol: tcp
+        from_port: "@percona_wr_port"
+        to_port: "@percona_wr_port"
+        cidrs: "&subnet:@aws_percona_subnets:cidr"
+      wr-udp-in:
+        mode: ingress
+        protocol: udp
+        from_port: "@percona_wr_port"
+        to_port: "@percona_wr_port"
+        cidrs: "&subnet:@aws_percona_subnets:cidr"
+      ist-in:
+        mode: ingress
+        protocol: tcp
+        from_port: "@percona_ist_port"
+        to_port: "@percona_ist_port"
+        cidrs: "&subnet:@aws_percona_subnets:cidr"
+
+load_balancer:
+  percona-db:
+    provider: aws_network
+    network: "@aws_networks"
+    subnets: "@aws_percona_subnets"
+    groups: "@percona_groups"
+    internal: true
+    listeners:
+      tcp:
+        port: "@percona_port"
+        target_port: "@percona_port"
+        target_protocol: tcp
+        health_check_interval: "@aws_percona_load_balancer_health_check_interval"
+        healthy_threshold: "@aws_percona_load_balancer_healthy_threshold"
+        unhealthy_threshold: "@aws_percona_load_balancer_unhealthy_threshold"
+
+server:
+  percona-db:
+    count: 1
+    provider: ec2_lb
+    network: "@aws_networks"
+    subnet: "@aws_percona_subnets"
+    image: "@aws_ubuntu_image[<network>]"
+    ssh_port: "@ssh_port"
+    user: "@aws_ubuntu_user"
+    machine: "@aws_percona_machine"
+    tenancy: "@aws_percona_tenancy"
+    monitoring: "@aws_percona_monitoring"
+    ebs_type: "@aws_percona_ebs_type"
+    ebs_size: "@aws_percona_ebs_size"
+    ebs_iops: "@aws_percona_ebs_iops"
+    ebs_iops: "@aws_percona_ebs_iops"
+    ebs_optimized: "@aws_percona_ebs_optimized"
+    ebs_encrypted: "@aws_percona_ebs_encrypted"
+    firewalls:
+      - all
+    load_balancer: percona-db
+    load_balancer_listener: tcp
+    groups: "@percona_groups"
+
+provision:
+  percona-db-credentials:
+    command: server rotate
+    server_search: groups.name=percona-db
+
+  percona-cluster:
+    requires: percona-db-credentials
+    task: percona
+    servers: groups.name=percona-db
+    root_password: "@percona_root_password"
+    replicator_password: "@percona_replicator_password"
+    global_config:
+      mysqld:
+        datadir: "@percona_data_dir"
+        wsrep_cluster_address: gcomm://&server:percona-db*:ip
