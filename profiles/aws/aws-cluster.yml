@@ -103,7 +103,9 @@ server:
     ebs_optimized: "@aws_percona_ebs_optimized"
     ebs_encrypted: "@aws_percona_ebs_encrypted"
     firewalls:
-      - all
+      - internet
+      - ssh-external
+      - percona-db
     load_balancer: percona-db
     load_balancer_listener: tcp
     groups: "@percona_groups"
@@ -122,4 +124,4 @@ provision:
     global_config:
       mysqld:
         datadir: "@percona_data_dir"
-        wsrep_cluster_address: gcomm://&server:percona-db*:ip
+        wsrep_cluster_address: gcomm://&server:percona-db*:private_ip
