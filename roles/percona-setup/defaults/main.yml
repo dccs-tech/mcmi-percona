@@ -37,7 +37,7 @@ default_config:
     wsrep_slave_threads: 8
     wsrep_log_conflicts:
     innodb_autoinc_lock_mode: 2
-    wsrep_node_address: "{{ ansible_host }}"
+    wsrep_node_address: "{{ server_private_ip }}"
     wsrep_cluster_name: percona-cluster
     wsrep_node_name: "percona-{{ server_index }}"
     pxc_strict_mode: ENFORCING
