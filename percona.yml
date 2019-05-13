@@ -6,6 +6,7 @@
   roles:
     - { role: percona-setup }
     - { role: percona-user }
+    - { role: percona-database }
   vars:
     percona_type: seed
 
@@ -14,11 +15,7 @@
     - { role: percona-setup }
     - { role: percona-user }
 
-- hosts: "{{ groups['all'][::2] }}"
+- hosts: "{{ groups['all'][2::2] }}"
   roles:
     - { role: percona-setup }
     - { role: percona-user }
-
-- hosts: all
-  roles:
-    - { role: percona-database }
