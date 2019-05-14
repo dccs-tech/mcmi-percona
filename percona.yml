@@ -13,9 +13,7 @@
 - hosts: "{{ groups['all'][1::2] }}"
   roles:
     - { role: percona-setup }
-    - { role: percona-user }
 
 - hosts: "{{ groups['all'][2::2] }}"
   roles:
     - { role: percona-setup }
-    - { role: percona-user }
