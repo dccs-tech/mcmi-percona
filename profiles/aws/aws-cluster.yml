@@ -96,19 +96,23 @@ server:
     machine: "@aws_percona_machine"
     tenancy: "@aws_percona_tenancy"
     monitoring: "@aws_percona_monitoring"
-    ebs_type: "@aws_percona_ebs_type"
-    ebs_size: "@aws_percona_ebs_size"
-    ebs_iops: "@aws_percona_ebs_iops"
-    ebs_iops: "@aws_percona_ebs_iops"
     ebs_optimized: "@aws_percona_ebs_optimized"
-    ebs_encrypted: "@aws_percona_ebs_encrypted"
+    load_balancer: percona-db
+    load_balancer_listener: tcp
+    groups: "@percona_groups"
+    volumes:
+      "@percona_data_dir"
+        provider: aws_ebs
+        type: ext4
+        source: "@percona_data_device"
+        ebs_type: "@aws_percona_ebs_type"
+        ebs_size: "@aws_percona_ebs_size"
+        ebs_iops: "@aws_percona_ebs_iops"
+        ebs_encrypted: "@aws_percona_ebs_encrypted"
     firewalls:
       - internet
       - ssh-external
       - percona-db
-    load_balancer: percona-db
-    load_balancer_listener: tcp
-    groups: "@percona_groups"
 
 provision:
   percona-db-credentials:
