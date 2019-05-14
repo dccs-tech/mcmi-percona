@@ -30,3 +30,4 @@ config:
   percona_root_password: aabbccddeeffgghh
   percona_replicator_password: aabbccddeeffgghh
   percona_data_dir: /var/lib/mysql
+  percona_data_device: /dev/xvdb
