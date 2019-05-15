@@ -1,0 +1,6 @@
+
+state:
+  provider: remote_command
+  command: mysql --defaults-file=/root/.my.cnf -e "SHOW GLOBAL STATUS LIKE 'wsrep_%';"
+  roles: percona-admin
+  sudo: true
