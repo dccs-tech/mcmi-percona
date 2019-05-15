@@ -104,6 +104,8 @@ server:
       "@percona_data_dir":
         provider: aws_ebs
         type: ext4
+        group: mysql
+        mode: "0775"
         location: "@percona_data_device"
         ebs_type: "@aws_percona_ebs_type"
         ebs_size: "@aws_percona_ebs_size"
