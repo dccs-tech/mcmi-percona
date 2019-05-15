@@ -101,10 +101,10 @@ server:
     load_balancer_listener: tcp
     groups: "@percona_groups"
     volumes:
-      "@percona_data_dir"
+      "@percona_data_dir":
         provider: aws_ebs
         type: ext4
-        source: "@percona_data_device"
+        location: "@percona_data_device"
         ebs_type: "@aws_percona_ebs_type"
         ebs_size: "@aws_percona_ebs_size"
         ebs_iops: "@aws_percona_ebs_iops"
