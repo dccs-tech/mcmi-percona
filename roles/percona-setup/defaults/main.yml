@@ -6,6 +6,7 @@ root_password: '+eswuw9uthUteFreyAqu'
 replicator_password: '+eswuw9uthUteFreyAqu'
 
 percona_type: node
+data_dir: /var/lib/mysql
 
 global_config: {}
 default_config:
@@ -22,7 +23,7 @@ default_config:
     nice: 0
   mysqld:
     server-id: "{{ server_index }}"
-    datadir: /var/lib/mysql
+    datadir: "{{ data_dir }}"
     socket: /var/run/mysqld/mysqld.sock
     log-error: /var/log/mysqld.log
     pid-file: /var/run/mysqld/mysqld.pid
