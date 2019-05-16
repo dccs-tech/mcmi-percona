@@ -1,6 +1,16 @@
 
 state:
   provider: remote_command
-  command: mysql --defaults-file=/root/.my.cnf -e "SHOW GLOBAL STATUS LIKE 'wsrep_%';"
+  command: mysql --defaults-file=/root/.my.cnf -e "SHOW GLOBAL STATUS LIKE '@pattern';"
   roles: percona-admin
   sudo: true
+  options:
+    pattern: "wsrep_%"
+
+query:
+  provider: remote_command
+  command: mysql --defaults-file=/root/.my.cnf -e "@query;"
+  roles: percona-admin
+  sudo: true
+  options:
+    query: "SHOW GLOBAL STATUS"
