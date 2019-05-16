@@ -1,5 +1,5 @@
 
-state:
+status:
   provider: remote_command
   command: mysql --defaults-file=/root/.my.cnf -e "SHOW GLOBAL STATUS LIKE '@pattern';"
   roles: percona-admin
