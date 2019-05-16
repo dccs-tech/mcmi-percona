@@ -104,8 +104,9 @@ server:
       "@percona_data_dir":
         provider: aws_ebs
         type: ext4
+        owner: mysql
         group: mysql
-        mode: "0775"
+        mode: "0770"
         location: "@percona_data_device"
         ebs_type: "@aws_percona_ebs_type"
         ebs_size: "@aws_percona_ebs_size"
@@ -124,10 +125,15 @@ provision:
   percona-cluster:
     requires: percona-db-credentials
     task: percona
-    servers: groups.name=percona-db
     root_password: "@percona_root_password"
     replicator_password: "@percona_replicator_password"
+    data_dir: "@percona_data_dir"
+    scopes:
+      network: "@aws_networks"
+    servers:
+      - subnet.network.name=<network>
+      - groups.name=percona-db
     global_config:
       mysqld:
-        datadir: "@percona_data_dir"
         wsrep_cluster_address: gcomm://&server:percona-db*:private_ip
+        wsrep_provider_options: "gmcast.segment=@percona_wsrep_segment[<network>]"
