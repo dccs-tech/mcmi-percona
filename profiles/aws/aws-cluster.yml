@@ -122,6 +122,12 @@ provision:
     command: server rotate
     server_search: groups.name=percona-db
 
+  user-environment:
+    requires: percona-db-credentials
+    module: cluster
+    task: user-environment
+    servers: groups.name=percona-db
+
   percona-cluster:
     requires: percona-db-credentials
     task: percona
