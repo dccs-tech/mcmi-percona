@@ -1,4 +1,8 @@
 ---
+- name: install | empty data directory
+  shell: rm -Rf {{ data_dir }}/*
+  when: _mysqld_installed.rc != 0
+
 - name: install | configure debconf
   debconf:
     name: "{{ item.name }}"
