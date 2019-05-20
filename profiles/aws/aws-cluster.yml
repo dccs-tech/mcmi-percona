@@ -117,7 +117,7 @@ server:
       - ssh-external
       - percona-db
 
-provision:
+run:
   percona-db-credentials:
     command: server rotate
     server_search: groups.name=percona-db
