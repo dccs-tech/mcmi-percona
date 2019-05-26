@@ -5,9 +5,9 @@ config:
   percona_groups: percona-db
 
   aws_percona_subnets:
-    - percona-db-1
-    - percona-db-2
-    - percona-db-3
+    - percona-db-a
+    - percona-db-b
+    - percona-db-c
 
   aws_percona_load_balancer_health_check_interval: 30
   aws_percona_load_balancer_healthy_threshold: 3
