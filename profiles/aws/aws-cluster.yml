@@ -5,7 +5,7 @@ parents:
   - aws-config
 
 group:
-  percona-db:
+  percona:
 
 subnet:
   percona-db-a:
@@ -126,13 +126,13 @@ server:
 run:
   percona-db-credentials:
     command: server rotate
-    server_search: groups.name=percona-db
+    server_search: groups.name=percona
 
   percona-user-environment:
     requires: percona-db-credentials
     module: cluster
     task: user-environment
-    servers: groups.name=percona-db
+    servers: groups.name=percona
 
   percona-cluster:
     requires: percona-db-credentials
@@ -144,7 +144,7 @@ run:
       network: "@aws_networks"
     servers:
       - subnet.network.name=<network>
-      - groups.name=percona-db
+      - groups.name=percona
     global_config:
       mysqld:
         wsrep_cluster_address: gcomm://&server:percona-db*:private_ip
