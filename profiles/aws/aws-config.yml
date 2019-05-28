@@ -2,7 +2,7 @@ config:
   percona_subnet_cidr_prefix: 28
   percona_subnet_public_ip: true
 
-  percona_groups: percona-db
+  percona_groups: percona
 
   aws_percona_subnets:
     - percona-db-a
