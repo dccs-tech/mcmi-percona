@@ -1,6 +1,6 @@
 config:
   percona_subnet_cidr_prefix: 28
-  percona_subnet_public_ip: true
+  percona_subnet_public_ip: false
 
   percona_groups: percona
 
