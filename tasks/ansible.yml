@@ -2,8 +2,7 @@
 _ansible: &ansible
   provider: ansible
   roles: percona-admin
-  config: ansible.cfg
-  group_vars: variables
+  directory: ansible
 
 
 percona:
