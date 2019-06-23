@@ -7,13 +7,14 @@ config:
     - percona-db-b
     - percona-db-c
 
-  aws_percona_load_balancer_health_check_interval: 30
-  aws_percona_load_balancer_healthy_threshold: 3
-  aws_percona_load_balancer_unhealthy_threshold: 3
+  aws_percona_lb_health_check_interval: 30
+  aws_percona_lb_healthy_threshold: 3
+  aws_percona_lb_unhealthy_threshold: 3
 
   aws_percona_machine: t2.small
   aws_percona_tenancy: default
   aws_percona_monitoring: false
+
   aws_percona_ebs_type: gp2
   aws_percona_ebs_size: 20
   aws_percona_ebs_iops: null

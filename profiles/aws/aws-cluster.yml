@@ -86,9 +86,9 @@ load_balancer:
         port: "@percona_port"
         target_port: "@percona_port"
         target_protocol: tcp
-        health_check_interval: "@aws_percona_load_balancer_health_check_interval"
-        healthy_threshold: "@aws_percona_load_balancer_healthy_threshold"
-        unhealthy_threshold: "@aws_percona_load_balancer_unhealthy_threshold"
+        health_check_interval: "@aws_percona_lb_health_check_interval"
+        healthy_threshold: "@aws_percona_lb_healthy_threshold"
+        unhealthy_threshold: "@aws_percona_lb_unhealthy_threshold"
 
 server:
   percona-db:
