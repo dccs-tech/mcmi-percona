@@ -9,7 +9,6 @@ group:
 
 subnet:
   percona-db-a:
-    requires: "@aws_nat_subnets"
     when_in: "@aws_percona_subnets"
     network: "@aws_networks"
     cidr_prefix: "@percona_subnet_cidr_prefix"
@@ -19,7 +18,6 @@ subnet:
     groups: "@percona_groups"
 
   percona-db-b:
-    requires: "@aws_nat_subnets"
     when_in: "@aws_percona_subnets"
     network: "@aws_networks"
     cidr_prefix: "@percona_subnet_cidr_prefix"
@@ -29,7 +27,6 @@ subnet:
     groups: "@percona_groups"
 
   percona-db-c:
-    requires: "@aws_nat_subnets"
     when_in: "@aws_percona_subnets"
     network: "@aws_networks"
     cidr_prefix: "@percona_subnet_cidr_prefix"
