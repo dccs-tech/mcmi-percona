@@ -1,6 +1,6 @@
 parents:
   - module: cluster
-    profile: aws-network
+    profile: aws-config
 
   - aws-config
 
@@ -113,7 +113,7 @@ server:
         owner: mysql
         group: mysql
         mode: "0770"
-        location: "@percona_data_device"
+        location: "@aws_percona_data_device"
         ebs_type: "@aws_percona_ebs_type"
         ebs_size: "@aws_percona_ebs_size"
         ebs_iops: "@aws_percona_ebs_iops"
@@ -148,4 +148,4 @@ run:
     global_config:
       mysqld:
         wsrep_cluster_address: gcomm://&server:percona-db*:private_ip
-        wsrep_provider_options: "gmcast.segment=@percona_wsrep_segment[<network>]"
+        wsrep_provider_options: "gmcast.segment=@aws_percona_wsrep_segment[<network>]"

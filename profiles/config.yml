@@ -1,0 +1,14 @@
+config:
+  percona_subnet_cidr_prefix: 28
+  percona_subnet_public_ip: false
+
+  percona_groups: percona
+
+  percona_port: 3306
+  percona_sst_port: 4444
+  percona_wr_port: 4567
+  percona_ist_port: 4568
+
+  percona_root_password: "%%percona_root_password:30"
+  percona_replicator_password: "%%percona_replicator_password:30"
+  percona_data_dir: /var/lib/mysql

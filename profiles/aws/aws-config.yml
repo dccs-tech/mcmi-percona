@@ -1,9 +1,7 @@
+parents:
+  - config
+
 config:
-  percona_subnet_cidr_prefix: 28
-  percona_subnet_public_ip: false
-
-  percona_groups: percona
-
   aws_percona_subnets:
     - percona-db-a
     - percona-db-b
@@ -21,18 +19,9 @@ config:
   aws_percona_ebs_iops: null
   aws_percona_ebs_optimized: false
   aws_percona_ebs_encrypted: false
+  aws_percona_data_device: /dev/xvdb
 
-  percona_port: 3306
-  percona_sst_port: 4444
-  percona_wr_port: 4567
-  percona_ist_port: 4568
-
-  percona_root_password: "%%percona_root_password:30"
-  percona_replicator_password: "%%percona_replicator_password:30"
-  percona_data_dir: /var/lib/mysql
-  percona_data_device: /dev/xvdb
-
-  percona_wsrep_segment:
+  aws_percona_wsrep_segment:
     aws-us-east-1: 1
     aws-us-east-2: 2
     aws-us-west-1: 3
