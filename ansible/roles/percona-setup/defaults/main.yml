@@ -33,7 +33,7 @@ default_config:
     symbolic-links: 0
     max_connect_errors: 1000
     max_connections: 500
-    wait_timeout: 30
+    wait_timeout: 3600
     wsrep_provider: /usr/lib/galera3/libgalera_smm.so
     wsrep_cluster_address: gcomm://
     binlog_format: ROW
