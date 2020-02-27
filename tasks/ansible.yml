@@ -3,6 +3,8 @@ _ansible: &ansible
   provider: ansible
   roles: percona-admin
   directory: ansible
+  servers:
+    - name.startswith=percona-db
 
 
 percona:
