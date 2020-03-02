@@ -1,0 +1,12 @@
+parents:
+  - aws/config
+
+profile:
+  percona-network:
+    module: cluster
+    profile: aws/network
+    operations: run
+
+  percona-cluster:
+    requires: percona-network
+    profile: aws/cluster
