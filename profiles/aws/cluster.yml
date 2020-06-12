@@ -4,9 +4,6 @@ parents:
 
   - aws/config
 
-group:
-  percona:
-
 subnet:
   percona-db-a:
     when_in: "@aws_percona_subnets"
