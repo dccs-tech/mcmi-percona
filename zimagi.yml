@@ -1,0 +1,8 @@
+scripts: scripts/install.sh
+requirements: requirements.txt
+
+modules:
+  cluster:
+    provider: git
+    remote: https://github.com/dccs-tech/zimagi-cluster.git
+    reference: master

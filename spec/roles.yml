@@ -1,0 +1,2 @@
+roles:
+    percona-admin: Percona administrator (full privileges over Percona Cluster database system)
