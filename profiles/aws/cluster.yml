@@ -11,7 +11,7 @@ subnet:
     cidr_prefix: "@percona_subnet_cidr_prefix"
     zone_suffix: a
     use_public_ip: "@percona_subnet_public_ip"
-    nat_subnet: "?(not @percona_subnet_public_ip) 'nat-a' | None"
+    nat_subnet: "?{not @percona_subnet_public_ip} 'nat-a' | None"
     groups: "@percona_groups"
 
   percona-db-b:
@@ -20,7 +20,7 @@ subnet:
     cidr_prefix: "@percona_subnet_cidr_prefix"
     zone_suffix: b
     use_public_ip: "@percona_subnet_public_ip"
-    nat_subnet: "?(not @percona_subnet_public_ip) 'nat-b' | None"
+    nat_subnet: "?{not @percona_subnet_public_ip} 'nat-b' | None"
     groups: "@percona_groups"
 
   percona-db-c:
@@ -29,7 +29,7 @@ subnet:
     cidr_prefix: "@percona_subnet_cidr_prefix"
     zone_suffix: c
     use_public_ip: "@percona_subnet_public_ip"
-    nat_subnet: "?(not @percona_subnet_public_ip) 'nat-c' | None"
+    nat_subnet: "?{not @percona_subnet_public_ip} 'nat-c' | None"
     groups: "@percona_groups"
 
 firewall:
