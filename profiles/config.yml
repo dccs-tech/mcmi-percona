@@ -12,3 +12,6 @@ config:
   percona_root_password: "%%percona_root_password:30"
   percona_replicator_password: "%%percona_replicator_password:30"
   percona_data_dir: /var/lib/mysql
+
+group:
+  percona:
