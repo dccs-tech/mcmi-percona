@@ -98,7 +98,8 @@ server:
     monitoring: "@aws_percona_monitoring"
     ebs_optimized: "@aws_percona_ebs_optimized"
     load_balancer: percona-db
-    load_balancer_listeners: tcp
+    load_balancer_listeners:
+      - tcp
     groups: "@percona_groups"
     volumes:
       "@percona_data_dir":
