@@ -4,6 +4,9 @@ parents:
 
   - aws/config
 
+config:
+  ssh_firewall: "?> @percona_subnet_public_ip ? 'ssh-external' | 'ssh-internal'"
+
 subnet:
   percona-db-a:
     when_in: "@aws_percona_subnets"
@@ -115,7 +118,7 @@ server:
         ebs_encrypted: "@aws_percona_ebs_encrypted"
     firewalls:
       - internet
-      - ssh-external
+      - "@ssh_firewall"
       - percona-db
 
 run:
