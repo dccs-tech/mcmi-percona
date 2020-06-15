@@ -145,5 +145,5 @@ run:
       - groups.name=percona
     global_config:
       mysqld:
-        wsrep_cluster_address: "gcomm://&server(network=<network>):percona-db*:private_ip"
+        wsrep_cluster_address: gcomm://&server:percona-db*:private_ip
         wsrep_provider_options: "gmcast.segment=@aws_percona_wsrep_segment[<network>]"
