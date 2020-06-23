@@ -1,4 +1,5 @@
 name: percona
+
 scripts: scripts/install.sh
 requirements: requirements.txt
 
