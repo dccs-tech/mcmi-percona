@@ -1,19 +1,19 @@
 - hosts: all
   roles:
-    - { role: oefenweb.limits }
+      - { role: oefenweb.limits }
 
 - hosts: all[0]
   roles:
-    - { role: percona-setup }
-    - { role: percona-user }
-    - { role: percona-database }
+      - { role: percona-setup }
+      - { role: percona-user }
+      - { role: percona-database }
   vars:
-    percona_type: seed
+      percona_type: seed
 
 - hosts: "{{ groups['all'][1::2] }}"
   roles:
-    - { role: percona-setup }
+      - { role: percona-setup }
 
 - hosts: "{{ groups['all'][2::2] }}"
   roles:
-    - { role: percona-setup }
+      - { role: percona-setup }

@@ -1,14 +1,13 @@
----
 - name: databases | create
   mysql_db:
-    name: "{{ item }}"
-    collation: "{{ databases_present[item].collation | default('utf8_general_ci') }}"
-    encoding: "{{ databases_present[item].encoding | default('utf8') }}"
-    state: present
+      name: "{{ item }}"
+      collation: "{{ databases_present[item].collation | default('utf8_general_ci') }}"
+      encoding: "{{ databases_present[item].encoding | default('utf8') }}"
+      state: present
   with_items: "{{ databases_present.keys() | list }}"
 
 - name: databases | drop
   mysql_db:
-    name: "{{ item }}"
-    state: absent
+      name: "{{ item }}"
+      state: absent
   with_items: "{{ (default_databases_absent|combine(databases_absent,recursive=True)).keys() | list }}"

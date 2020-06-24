@@ -1,21 +1,21 @@
 parents:
-  - aws/config
+    - aws/config
 
 profile:
-  percona-network:
-    module: cluster
-    profile: aws/network
-    operations: run
+    percona-network:
+        module: cluster
+        profile: aws/network
+        operations: run
 
-  percona-nat:
-    requires: percona-network
-    when_not: "@percona_subnet_public_ip"
-    module: cluster
-    profile: aws/nat
-    operations: run
+    percona-nat:
+        requires: percona-network
+        when_not: "@percona_subnet_public_ip"
+        module: cluster
+        profile: aws/nat
+        operations: run
 
-  percona-cluster:
-    requires:
-      - percona-network
-      - percona-nat
-    profile: aws/cluster
+    percona-cluster:
+        requires:
+            - percona-network
+            - percona-nat
+        profile: aws/cluster

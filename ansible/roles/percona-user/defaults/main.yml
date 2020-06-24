@@ -1,14 +1,13 @@
----
-replicator_password: '+eswuw9uthUteFreyAqu'
+replicator_password: "+eswuw9uthUteFreyAqu"
 
 users_present: {}
 default_users_present:
-  replicator:
-    password: "{{ replicator_password }}"
-    privileges:
-      - "*.*:RELOAD,LOCK TABLES,PROCESS,REPLICATION CLIENT"
-    host: "%"
+    replicator:
+        password: "{{ replicator_password }}"
+        privileges:
+            - "*.*:RELOAD,LOCK TABLES,PROCESS,REPLICATION CLIENT"
+        host: "%"
 
 users_absent: {}
 default_users_absent:
-  "":
+    "":

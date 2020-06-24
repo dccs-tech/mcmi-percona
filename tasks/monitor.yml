@@ -1,20 +1,18 @@
-
 _command: &command
-  provider: remote_command
-  roles: percona-admin
-  sudo: true
-  servers:
-    - name.startswith=percona-db
-
+    provider: remote_command
+    roles: percona-admin
+    sudo: true
+    servers:
+        - name.startswith=percona-db
 
 status:
-  <<: *command
-  command: mysql --defaults-file=/root/.my.cnf -e "SHOW GLOBAL STATUS LIKE '@pattern';"
-  options:
-    pattern: "wsrep_%"
+    <<: *command
+    command: mysql --defaults-file=/root/.my.cnf -e "SHOW GLOBAL STATUS LIKE '@pattern';"
+    options:
+        pattern: "wsrep_%"
 
 query:
-  <<: *command
-  command: mysql --defaults-file=/root/.my.cnf -e "@query;"
-  options:
-    query: "SHOW GLOBAL STATUS"
+    <<: *command
+    command: mysql --defaults-file=/root/.my.cnf -e "@query;"
+    options:
+        query: "SHOW GLOBAL STATUS"

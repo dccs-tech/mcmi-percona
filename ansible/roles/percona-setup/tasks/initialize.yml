@@ -1,7 +1,6 @@
----
 - name: initialization | check
   shell: >
-    dpkg-query -W -f='${Status}' percona-xtradb-cluster-{{ package_suffix }} | grep -q 'install ok installed'
+      dpkg-query -W -f='${Status}' percona-xtradb-cluster-{{ package_suffix }} | grep -q 'install ok installed'
   register: _mysqld_installed
   check_mode: no
   changed_when: false

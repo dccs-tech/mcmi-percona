@@ -1,40 +1,40 @@
 parents:
-  - config
+    - config
 
 config:
-  aws_percona_subnets:
-    - percona-db-a
-    - percona-db-b
-    - percona-db-c
+    aws_percona_subnets:
+        - percona-db-a
+        - percona-db-b
+        - percona-db-c
 
-  aws_percona_lb_health_check_interval: 30
-  aws_percona_lb_healthy_threshold: 3
-  aws_percona_lb_unhealthy_threshold: 3
+    aws_percona_lb_health_check_interval: 30
+    aws_percona_lb_healthy_threshold: 3
+    aws_percona_lb_unhealthy_threshold: 3
 
-  aws_percona_machine: t2.small
-  aws_percona_tenancy: default
-  aws_percona_monitoring: false
+    aws_percona_machine: t2.small
+    aws_percona_tenancy: default
+    aws_percona_monitoring: false
 
-  aws_percona_ebs_type: gp2
-  aws_percona_ebs_size: 20
-  aws_percona_ebs_iops: null
-  aws_percona_ebs_optimized: false
-  aws_percona_ebs_encrypted: false
-  aws_percona_data_device: /dev/xvdb
+    aws_percona_ebs_type: gp2
+    aws_percona_ebs_size: 20
+    aws_percona_ebs_iops: null
+    aws_percona_ebs_optimized: false
+    aws_percona_ebs_encrypted: false
+    aws_percona_data_device: /dev/xvdb
 
-  aws_percona_wsrep_segment:
-    aws-us-east-1: 1
-    aws-us-east-2: 2
-    aws-us-west-1: 3
-    aws-us-west-2: 4
-    aws-ca-central-1: 5
-    aws-sa-east-1: 6
-    aws-eu-central-1: 7
-    aws-eu-west-1: 8
-    aws-eu-west-2: 9
-    aws-eu-west-3: 10
-    aws-ap-northeast-1: 11
-    aws-ap-northeast-2: 12
-    aws-ap-south-1: 13
-    aws-ap-southeast-1: 14
-    aws-ap-southeast-2: 15
+    aws_percona_wsrep_segment:
+        aws-us-east-1: 1
+        aws-us-east-2: 2
+        aws-us-west-1: 3
+        aws-us-west-2: 4
+        aws-ca-central-1: 5
+        aws-sa-east-1: 6
+        aws-eu-central-1: 7
+        aws-eu-west-1: 8
+        aws-eu-west-2: 9
+        aws-eu-west-3: 10
+        aws-ap-northeast-1: 11
+        aws-ap-northeast-2: 12
+        aws-ap-south-1: 13
+        aws-ap-southeast-1: 14
+        aws-ap-southeast-2: 15

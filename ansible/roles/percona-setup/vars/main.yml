@@ -1,24 +1,23 @@
----
 apt_key: 9334A25F8507EFA5
 
 apt_repositories:
-  - type: deb
-    url: "http://repo.percona.com/apt {{ ansible_lsb.codename }}"
-    component: main
-  - type: deb-src
-    url: "http://repo.percona.com/apt {{ ansible_lsb.codename }}"
-    component: main
+    - type: deb
+      url: "http://repo.percona.com/apt {{ ansible_lsb.codename }}"
+      component: main
+    - type: deb-src
+      url: "http://repo.percona.com/apt {{ ansible_lsb.codename }}"
+      component: main
 
 apt_debconf_selections:
-  - name: "percona-xtradb-cluster-server-{{ version }}"
-    question: "percona-xtradb-cluster-server-{{ version }}/root-pass"
-    value: "{{ root_password }}"
-    vtype: password
-  - name: "percona-xtradb-cluster-server-{{ version }}"
-    question: "percona-xtradb-cluster-server-{{ version }}/re-root-pass"
-    value: "{{ root_password }}"
-    vtype: password
+    - name: "percona-xtradb-cluster-server-{{ version }}"
+      question: "percona-xtradb-cluster-server-{{ version }}/root-pass"
+      value: "{{ root_password }}"
+      vtype: password
+    - name: "percona-xtradb-cluster-server-{{ version }}"
+      question: "percona-xtradb-cluster-server-{{ version }}/re-root-pass"
+      value: "{{ root_password }}"
+      vtype: password
 
 apt_dependencies:
-  - "percona-xtradb-cluster-{{ package_suffix }}"
-  - python3-mysqldb
+    - "percona-xtradb-cluster-{{ package_suffix }}"
+    - python3-mysqldb

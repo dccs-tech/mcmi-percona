@@ -1,20 +1,18 @@
-
 _ansible: &ansible
-  provider: ansible
-  roles: percona-admin
-  directory: ansible
-  servers:
-    - name.startswith=percona-db
-
+    provider: ansible
+    roles: percona-admin
+    directory: ansible
+    servers:
+        - name.startswith=percona-db
 
 percona:
-  <<: *ansible
-  playbooks: percona.yml
+    <<: *ansible
+    playbooks: percona.yml
 
 database:
-  <<: *ansible
-  playbooks: percona-db.yml
+    <<: *ansible
+    playbooks: percona-db.yml
 
 user:
-  <<: *ansible
-  playbooks: percona-user.yml
+    <<: *ansible
+    playbooks: percona-user.yml

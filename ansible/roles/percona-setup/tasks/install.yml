@@ -1,19 +1,18 @@
----
 - name: install | empty data directory
   shell: rm -Rf {{ data_dir }}/*
   when: _mysqld_installed.rc != 0
 
 - name: install | configure debconf
   debconf:
-    name: "{{ item.name }}"
-    question: "{{ item.question }}"
-    value: "{{ item.value }}"
-    vtype: "{{ item.vtype }}"
+      name: "{{ item.name }}"
+      question: "{{ item.question }}"
+      value: "{{ item.value }}"
+      vtype: "{{ item.vtype }}"
   with_items: "{{ apt_debconf_selections }}"
   changed_when: false
 
 - name: install | dependencies
   apt:
-    name: "{{ item }}"
-    state: "{{ apt_install_state | default('latest') }}"
+      name: "{{ item }}"
+      state: "{{ apt_install_state | default('latest') }}"
   with_items: "{{ apt_dependencies }}"

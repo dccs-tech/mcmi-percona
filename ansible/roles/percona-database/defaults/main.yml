@@ -1,5 +1,4 @@
----
 databases_present: {}
 databases_absent: {}
 default_databases_absent:
-  test:
+    test:
