@@ -71,26 +71,10 @@ firewall:
                 to_port: "@percona_ist_port"
                 cidrs: "&subnet:@aws_percona_subnets:cidr"
 
-load_balancer:
-    percona-db:
-        provider: aws_network
-        network: "@aws_networks"
-        subnets: "@aws_percona_subnets"
-        groups: "@percona_groups"
-        internal: true
-        listeners:
-            tcp:
-                port: "@percona_port"
-                target_port: "@percona_port"
-                target_protocol: tcp
-                health_check_interval: "@aws_percona_lb_health_check_interval"
-                healthy_threshold: "@aws_percona_lb_healthy_threshold"
-                unhealthy_threshold: "@aws_percona_lb_unhealthy_threshold"
-
 server:
     percona-db:
         count: 1
-        provider: ec2_lb
+        provider: ec2
         network: "@aws_networks"
         subnet: "@aws_percona_subnets"
         image: "@aws_ubuntu_image[<network>]"
@@ -100,9 +84,6 @@ server:
         tenancy: "@aws_percona_tenancy"
         monitoring: "@aws_percona_monitoring"
         ebs_optimized: "@aws_percona_ebs_optimized"
-        load_balancer: percona-db
-        load_balancer_listeners:
-            - tcp
         groups: "@percona_groups"
         volumes:
             "@percona_data_dir":
@@ -120,6 +101,23 @@ server:
             - internet
             - "@ssh_firewall"
             - percona-db
+
+load_balancer:
+    percona-db:
+        provider: aws_network
+        network: "@aws_networks"
+        subnets: "@aws_percona_subnets"
+        groups: "@percona_groups"
+        internal: true
+        listeners:
+            tcp:
+                port: "@percona_port"
+                target_port: "@percona_port"
+                target_protocol: tcp
+                health_check_interval: "@aws_percona_lb_health_check_interval"
+                healthy_threshold: "@aws_percona_lb_healthy_threshold"
+                unhealthy_threshold: "@aws_percona_lb_unhealthy_threshold"
+                server_groups: "@percona_groups"
 
 run:
     percona-db-credentials:
