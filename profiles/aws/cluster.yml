@@ -131,7 +131,7 @@ run:
         servers: groups.name=percona
 
     percona-cluster:
-        requires: percona-db-credentials
+        requires: percona-user-environment
         task: percona
         root_password: "@percona_root_password"
         replicator_password: "@percona_replicator_password"
