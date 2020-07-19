@@ -34,17 +34,20 @@ default_config:
         max_connect_errors: 1000
         max_connections: 500
         wait_timeout: 3600
-        wsrep_provider: /usr/lib/galera3/libgalera_smm.so
-        wsrep_cluster_address: gcomm://
         binlog_format: ROW
         default_storage_engine: InnoDB
-        wsrep_slave_threads: 8
-        wsrep_log_conflicts:
+        pxc_strict_mode: ENFORCING
         innodb_autoinc_lock_mode: 2
+        innodb_lock_wait_timeout: 30
+        wsrep_provider: /usr/lib/galera3/libgalera_smm.so
+        wsrep_cluster_address: gcomm://
+        wsrep_slave_threads: 8
+        wsrep_log_conflicts: ON
         wsrep_node_address: "{{ server_private_ip }}"
         wsrep_cluster_name: percona-cluster
         wsrep_node_name: "percona-{{ server_index }}"
-        pxc_strict_mode: ENFORCING
+        wsrep_sync_wait: 0
+        wsrep_retry_autocommit: 10
         wsrep_sst_method: xtrabackup-v2
         wsrep_sst_auth: "replicator:{{ replicator_password }}"
 
