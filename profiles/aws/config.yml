@@ -29,12 +29,18 @@ config:
         aws-us-west-2: 4
         aws-ca-central-1: 5
         aws-sa-east-1: 6
-        aws-eu-central-1: 7
-        aws-eu-west-1: 8
-        aws-eu-west-2: 9
-        aws-eu-west-3: 10
-        aws-ap-northeast-1: 11
-        aws-ap-northeast-2: 12
-        aws-ap-south-1: 13
-        aws-ap-southeast-1: 14
-        aws-ap-southeast-2: 15
+        aws-eu-north-1: 7
+        aws-eu-central-1: 8
+        aws-eu-west-1: 9
+        aws-eu-west-2: 10
+        aws-eu-west-3: 11
+        aws-eu-south-1: 12
+        aws-ap-east-1: 13
+        aws-ap-northeast-1: 14
+        aws-ap-northeast-2: 15
+        aws-ap-northeast-3: 16
+        aws-ap-south-1: 17
+        aws-ap-southeast-1: 18
+        aws-ap-southeast-2: 19
+        aws-af-south-1: 20
+        aws-me-south-1: 21
