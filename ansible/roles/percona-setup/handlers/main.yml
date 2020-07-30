@@ -3,3 +3,8 @@
       name: mysql
       state: restarted
   when: _mysqld_installed.rc == 0 and service_default_state | default('started') == 'started'
+
+- name: restart xinetd
+  service:
+      name: xinetd
+      state: restarted

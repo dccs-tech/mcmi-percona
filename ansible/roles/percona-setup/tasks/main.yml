@@ -3,7 +3,13 @@
 - include: install.yml
 - include: configure.yml
 
-- name: start and enable service
+- name: start and enable MySQL cluster check
+  service:
+      name: xinetd
+      state: started
+      enabled: yes
+
+- name: start and enable MySQL service
   service:
       name: mysql
       state: "{{ service_default_state | default('started') }}"
