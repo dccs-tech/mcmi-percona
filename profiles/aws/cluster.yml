@@ -46,6 +46,12 @@ firewall:
                 from_port: "@percona_port"
                 to_port: "@percona_port"
                 cidrs: "@network_cidr_base"
+            clustercheck-in:
+                mode: ingress
+                protocol: tcp
+                from_port: "@percona_clustercheck_port"
+                to_port: "@percona_clustercheck_port"
+                cidrs: "@network_cidr_base"
             sst-in:
                 mode: ingress
                 protocol: tcp
@@ -136,6 +142,7 @@ run:
         root_password: "@percona_root_password"
         replicator_password: "@percona_replicator_password"
         data_dir: "@percona_data_dir"
+        mysqlchk_port: "@percona_clustercheck_port"
         scopes:
             network: "@aws_networks"
         servers:

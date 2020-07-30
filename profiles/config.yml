@@ -5,6 +5,7 @@ config:
     percona_groups: percona
 
     percona_port: 3306
+    percona_clustercheck_port: 9200
     percona_sst_port: 4444
     percona_wr_port: 4567
     percona_ist_port: 4568
