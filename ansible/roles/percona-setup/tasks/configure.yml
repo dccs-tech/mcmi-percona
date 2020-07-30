@@ -45,3 +45,24 @@
       owner: root
       group: root
       mode: 0600
+
+- name: configure | update clustercheck script
+  template:
+    src: clustercheck.j2
+    dest: /usr/bin/clustercheck
+    owner: root
+    group: root
+    mode: 0755
+
+- name: configure | add mysqlchk service port definition
+  lineinfile:
+    path: /etc/services
+    regexp: '^mysqlchk'
+    line: "mysqlchk    {{ mysqlchk_port }}/tcp"
+
+- name: configure | enable mysqlchk in xinetd
+  template:
+    src: mysqlchk.xinetd.j2
+    dest: /etc/xinetd.d/mysqlchk
+  notify:
+    - restart xinetd
