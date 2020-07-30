@@ -21,3 +21,4 @@ apt_debconf_selections:
 apt_dependencies:
     - "percona-xtradb-cluster-{{ package_suffix }}"
     - python3-mysqldb
+    - xinetd
