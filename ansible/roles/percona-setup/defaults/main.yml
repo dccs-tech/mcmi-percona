@@ -7,6 +7,10 @@ replicator_password: "+eswuw9uthUteFreyAqu"
 percona_type: node
 data_dir: /var/lib/mysql
 
+mysqlchk_password: "7t5sPjx98AmxJuzp00A34"
+mysqlchk_timeout: 10
+mysqlchk_port: 9200
+
 global_config: {}
 default_config:
     mysqldump:
