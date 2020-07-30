@@ -1,4 +1,5 @@
 replicator_password: "+eswuw9uthUteFreyAqu"
+mysqlchk_password: "7t5sPjx98AmxJuzp00A34"
 
 users_present: {}
 default_users_present:
@@ -7,6 +8,11 @@ default_users_present:
         privileges:
             - "*.*:RELOAD,LOCK TABLES,PROCESS,REPLICATION CLIENT"
         host: "%"
+    clustercheck:
+        password: "{{ mysqlchk_password }}"
+        privileges:
+            - "*.*:PROCESS"
+        host: "localhost"
 
 users_absent: {}
 default_users_absent:
