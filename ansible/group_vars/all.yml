@@ -12,3 +12,57 @@ limits_conf_d_files:
           type: hard
           item: nofile
           value: 65535
+
+# HAProxy configurations
+haproxy_firewalld: false
+haproxy_selinux: false
+
+haproxy_global_maxconn: 4096
+haproxy_global_logs:
+  - 127.0.0.1 local0
+  - 127.0.0.1 local1 notice
+
+haproxy_default_logs:
+  - global
+haproxy_default_mode: http
+haproxy_default_maxconn: 2000
+haproxy_default_options:
+  - dontlognull
+  - tcplog
+  - redispatch
+haproxy_default_retries: 3
+haproxy_default_timeouts:
+  - http-request 10s
+  - queue 1m
+  - connect 10s
+  - client 1m
+  - server 1m
+  - http-keep-alive 10s
+  - check 10s
+
+haproxy_stats: true
+haproxy_stats_address: '*'
+haproxy_stats_port: 9001
+haproxy_stats_user: haproxy-stats
+haproxy_stats_password: B1Gp4sSw0rD!!
+haproxy_stats_uri: /
+haproxy_stats_options:
+  - refresh 20s
+  - show-legends
+  - show-node
+  - hide-version
+
+haproxy_frontend:
+  - write_nodes:
+      binds:
+        - "*:{{ write_port }}"
+      mode: tcp
+      default_backend: write_nodes
+
+haproxy_backend:
+  - write_nodes:
+      balance: leastconn
+      mode: tcp
+      options:
+        - httpchk
+      servers: "{{ haproxy_servers }}"
