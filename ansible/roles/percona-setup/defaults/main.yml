@@ -18,7 +18,7 @@ default_config:
         quote-names:
         max_allowed_packet: 100M
     client:
-        port: 3306
+        port: "{{ db_port }}"
         socket: /var/run/mysqld/mysqld.sock
     mysqld_safe:
         pid-file: /var/run/mysqld/mysqld.pid
@@ -27,6 +27,7 @@ default_config:
     mysqld:
         server-id: "{{ server_index }}"
         datadir: "{{ data_dir }}"
+        port: "{{ db_port }}"
         socket: /var/run/mysqld/mysqld.sock
         log-error: /var/log/mysqld.log
         pid-file: /var/run/mysqld/mysqld.pid
