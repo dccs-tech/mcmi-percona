@@ -3,8 +3,6 @@
       - set_fact:
             haproxy_servers: "{{ haproxy_servers }} + [ 'srv{{ item.0 }} {{ item.1 }}:{{ db_port }} check port {{ mysqlchk_port }} inter 12000 rise 3 fall 3 {{ 'backup' if item.0 > 0 else '' }}' ]"
         with_indexed_items: "{{ server_ips }}"
-      - debug:
-            msg: "{{ haproxy_servers }}"
   roles:
       - { role: oefenweb.limits }
       - { role: uoi-io.haproxy }
