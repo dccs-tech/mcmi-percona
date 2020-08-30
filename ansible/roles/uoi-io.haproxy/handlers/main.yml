@@ -1,0 +1,11 @@
+---
+# file: roles/haproxy/handlers/main.yml
+- name: restart haproxy
+  service:
+    name: "{{ haproxy_service }}"
+    state: restarted
+
+- name: reload haproxy
+  service:
+    name: "{{ haproxy_service }}"
+    state: reloaded
