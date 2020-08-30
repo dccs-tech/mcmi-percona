@@ -5,13 +5,17 @@ config:
     percona_groups: percona
 
     percona_port: 3306
+    percona_write_port: 3307
     percona_clustercheck_port: 9200
+    percona_haproxy_stats_port: 9001
     percona_sst_port: 4444
     percona_wr_port: 4567
     percona_ist_port: 4568
 
     percona_root_password: "%%percona_root_password:30"
     percona_replicator_password: "%%percona_replicator_password:30"
+    percona_mysqlchk_password: "%%percona_mysqlchk_password:30"
+    percona_haproxy_stats_password: "%%percona_haproxy_stats_password:30"
     percona_data_dir: /var/lib/mysql
 
 group:
