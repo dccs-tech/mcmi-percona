@@ -11,6 +11,15 @@ config:
     aws_percona_lb_healthy_threshold: 3
     aws_percona_lb_unhealthy_threshold: 3
 
+    aws_percona_stats_lb_port: 443
+    aws_percona_stats_lb_timeout: 3600
+    aws_percona_stats_lb_health_path: /
+    aws_percona_stats_lb_healthy_status: 401
+    aws_percona_stats_lb_health_check_interval: 30
+    aws_percona_stats_lb_health_timeout: 10
+    aws_percona_stats_lb_healthy_threshold: 3
+    aws_percona_stats_lb_unhealthy_threshold: 3
+
     aws_percona_machine: t2.small
     aws_percona_tenancy: default
     aws_percona_monitoring: false
