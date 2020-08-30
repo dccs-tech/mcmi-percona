@@ -40,11 +40,17 @@ firewall:
         network: "@aws_networks"
         groups: "@percona_groups"
         rules:
-            db-in:
+            db-read-in:
                 mode: ingress
                 protocol: tcp
                 from_port: "@percona_port"
                 to_port: "@percona_port"
+                cidrs: "@network_cidr_base"
+            db-write-in:
+                mode: ingress
+                protocol: tcp
+                from_port: "@percona_write_port"
+                to_port: "@percona_write_port"
                 cidrs: "@network_cidr_base"
             clustercheck-in:
                 mode: ingress
@@ -52,6 +58,11 @@ firewall:
                 from_port: "@percona_clustercheck_port"
                 to_port: "@percona_clustercheck_port"
                 cidrs: "@network_cidr_base"
+            haproxy-stats-in:
+                mode: ingress
+                protocol: tcp
+                from_port: "@percona_haproxy_stats_port"
+                to_port: "@percona_haproxy_stats_port"
             sst-in:
                 mode: ingress
                 protocol: tcp
@@ -141,8 +152,14 @@ run:
         task: percona
         root_password: "@percona_root_password"
         replicator_password: "@percona_replicator_password"
+        mysqlchk_password: "@percona_mysqlchk_password"
+        haproxy_stats_password: "@percona_haproxy_stats_password"
         data_dir: "@percona_data_dir"
+        db_port: "@percona_port"
+        write_port: "@percona_write_port"
         mysqlchk_port: "@percona_clustercheck_port"
+        haproxy_stats_port: "@percona_haproxy_stats_port"
+        server_ips: "&server:percona-db*:private_ip"
         scopes:
             network: "@aws_networks"
         servers:
