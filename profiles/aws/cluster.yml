@@ -7,6 +7,21 @@ parents:
 config:
     ssh_firewall: "?> @percona_subnet_public_ip ? 'ssh-external' | 'ssh-internal'"
 
+domain:
+    "@root_domain":
+        when: "@provision_domain"
+        provider: "@domain_provider"
+        keep: true
+        certificate_authority: letsencrypt
+
+certificate:
+    percona-stats:
+        when: "@provision_domain"
+        provider: aws
+        network: "@aws_networks"
+        domain: "@root_domain"
+        groups: "@percona_groups"
+
 subnet:
     percona-db-a:
         when_in: "@aws_percona_subnets"
@@ -63,6 +78,7 @@ firewall:
                 protocol: tcp
                 from_port: "@percona_haproxy_stats_port"
                 to_port: "@percona_haproxy_stats_port"
+                source_firewall: percona-stats-external
             sst-in:
                 mode: ingress
                 protocol: tcp
@@ -87,6 +103,15 @@ firewall:
                 from_port: "@percona_ist_port"
                 to_port: "@percona_ist_port"
                 cidrs: "&subnet:@aws_percona_subnets:cidr"
+    percona-stats-external:
+        network: "@aws_networks"
+        groups: "@percona_groups"
+        rules:
+            haproxy-stats-in:
+                mode: ingress
+                protocol: tcp
+                from_port: "@aws_percona_stats_lb_port"
+                to_port: "@aws_percona_stats_lb_port"
 
 server:
     percona-db:
@@ -127,13 +152,45 @@ load_balancer:
         groups: "@percona_groups"
         internal: true
         listeners:
-            tcp:
+            main:
                 port: "@percona_port"
                 target_port: "@percona_port"
                 target_protocol: tcp
                 health_check_interval: "@aws_percona_lb_health_check_interval"
                 healthy_threshold: "@aws_percona_lb_healthy_threshold"
                 unhealthy_threshold: "@aws_percona_lb_unhealthy_threshold"
+                server_groups: "@percona_groups"
+            write:
+                port: "@percona_write_port"
+                target_port: "@percona_write_port"
+                target_protocol: tcp
+                health_check_interval: "@aws_percona_lb_health_check_interval"
+                healthy_threshold: "@aws_percona_lb_healthy_threshold"
+                unhealthy_threshold: "@aws_percona_lb_unhealthy_threshold"
+                server_groups: "@percona_groups"
+    percona-stats:
+        provider: aws_application
+        network: "@aws_networks"
+        subnets: "@aws_percona_subnets"
+        domain: "?> @provision_domain ? '@root_domain' | None"
+        internal: false
+        idle_timeout: "@aws_percona_stats_lb_timeout"
+        groups: "@percona_groups"
+        firewalls:
+            - internet
+            - percona-stats-external
+        listeners:
+            percona-stats:
+                port: "@aws_percona_stats_lb_port"
+                certificate: percona-stats
+                target_port: "@percona_haproxy_stats_port"
+                target_protocol: http
+                health_check_path: "@aws_percona_stats_lb_health_path"
+                health_check_interval: "@aws_percona_stats_lb_health_check_interval"
+                health_check_timeout: "@aws_percona_stats_lb_health_timeout"
+                healthy_status: "@aws_percona_stats_lb_healthy_status"
+                healthy_threshold: "@aws_percona_stats_lb_healthy_threshold"
+                unhealthy_threshold: "@aws_percona_stats_lb_unhealthy_threshold"
                 server_groups: "@percona_groups"
 
 run:
@@ -150,6 +207,7 @@ run:
     percona-cluster:
         requires: percona-user-environment
         task: percona
+        haproxy_stats_user: "@percona_haproxy_stats_user"
         root_password: "@percona_root_password"
         replicator_password: "@percona_replicator_password"
         mysqlchk_password: "@percona_mysqlchk_password"
